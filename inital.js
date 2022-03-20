@@ -83,6 +83,21 @@ function fn_applications(db) {
     )
 }
 
+function fn_notifications(db) {
+    db.run(
+        "CREATE TABLE IF NOT EXISTS tbl_notification (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, expiration DATE, type TEXT)",
+        (err) => {
+            if (!err) {
+                let query = "DELETE from tbl_notification";
+                db.run(query);
+
+                query = `INSERT INTO tbl_notification (content, expiration, type) VALUES('사이트 공사중입니다. 일부 사용에 제약이 있을 수 있습니다.','2099-12-31','warning')`;
+                db.run(query);
+            }
+        }
+    )
+}
+
 module.exports.run = function(db, type){
     if(type === TYPE.about_me){
         fu_about_me(db);
@@ -92,5 +107,8 @@ module.exports.run = function(db, type){
     }
     else if(type === TYPE.applications){
         fn_applications(db);
+    }
+    else if (type === TYPE.notification) {
+        fn_notifications(db)
     }
 }
