@@ -113,6 +113,20 @@ function fn_blog(db) {
     )
 }
 
+function fn_accounts(db){
+    // db.run('DROP TABLE IF EXISTS tbl_accounts');
+
+    db.run(
+        "CREATE TABLE tbl_accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, password TEXT, date DATETIME DEFAULT (datetime('now','localtime')),grade TEXT, token TEXT)",
+        (err) =>{
+            if(!err){
+                query = `INSERT OR IGNORE INTO tbl_accounts(id, email, password, grade, token) VALUES((SELECT id FROM tbl_accounts WHERE grade='owner'),'vue','vue','owner', null)`;
+                db.query(query);
+            }
+        }
+    )
+}
+
 module.exports.run = function(db, type){
     if(type === TYPE.about_me){
         fu_about_me(db);
