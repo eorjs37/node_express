@@ -2,6 +2,8 @@ const sqlite3 = require('sqlite3');
 const express = require('express');
 const TYPE = require('./type');
 const get = require('./get');
+const post = require('./post');
+const put = require('./put');
 const initial = require('./inital');
 const cors = require('cors');
 const app = express();
@@ -29,3 +31,5 @@ app.listen(PORT,()=>{
 
 
 get.setup(app,db);
+post.setup(app,db);
+put.setup(app,db);
