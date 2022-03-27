@@ -70,18 +70,37 @@ module.exports.setup = function(app,db){
         )
     })
 
-    app.get('/db/blog',(req,res,next)=>{
+    app.get('/db/blog', (req, res, next) => {
         let result = {
             rsp: 'fail',
         };
 
-        db.all(`SELECT * FROM tbl_blog order by id desc`, (err,rows)=>{
-            if(!err){
-                result.rsp ='ok';
+        db.all(`SELECT * FROM tbl_blog order by id desc`, (err, rows) => {
+            if (!err) {
+                result.rsp = 'ok';
                 result.data = rows;
                 res.json(result);
             }
-            else{
+            else {
+                result.err = err.message;
+                res.json(result);
+            }
+        })
+    });
+
+    app.get('/db/accounts', (req, res, next) => {
+        let result = {
+            rsp: 'fail',
+        };
+
+        db.all(`SELECT * FROM tbl_accounts`, (err, rows) => {
+            if (!err) {
+                console.log('rows : ',rows);
+                result.rsp = 'ok';
+                result.data = rows;
+                res.json(result);
+            }
+            else {
                 result.err = err.message;
                 res.json(result);
             }
